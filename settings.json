@@ -1,0 +1,27 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.fontSize": 16,
+    "editor.cursorStyle": "block",
+    "files.exclude": {
+        "**/node_modules": true
+    },
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.smoothScrolling": true,
+    "editor.cursorBlinking": "smooth",
+    "window.commandCenter": true,
+    "editor.guides.bracketPairs": true,
+    "editor.language.colorizedBracketPairs": [],
+    "tailwindCSS.emmetCompletions": true,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "editor.fontFamily": "Fira Code, Consolas",
+    "editor.fontLigatures": true,
+
+    "files.associations": {
+        "*.mdx": "markdown"
+    },
+    "workbench.colorTheme": "GitHub Dark Default",
+    "telemetry.telemetryLevel": "off",
+    "editor.stickyScroll.enabled": true
+}
