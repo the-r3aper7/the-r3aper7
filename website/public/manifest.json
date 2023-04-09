@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Sai Srikar Dumpeti website",
+  "short_name": "the-r3aper7's website",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "developed by Sai Srikar Dumpeti using Qwik"
+}
