@@ -1,5 +1,8 @@
-import type { ImageLinkProps } from '~/components/image-link/image-link';
 import type { ImageProps } from '~/components/image/image';
+
+interface ImageWithLinkProps extends ImageProps {
+  href: string;
+}
 
 export const Tags: string[] = [
   'technology',
@@ -40,10 +43,10 @@ export const Acquiring: ImageProps[] = [
   },
 ];
 
-export const ContactMe: ImageLinkProps[] = [
+export const ContactMe: ImageWithLinkProps[] = [
   {
     name: 'Linkedin',
-    href: 'https://www.linkedin.com/in/sai-srikar-dumpeti/',
+    href: 'https://www.linkedin.com/in/sai-srikar-dumpeti',
     src: '/logos/linkedin.png',
     class: 'md:h-14 h-10 rounded-lg shadow-md shadow-blue-300',
   },

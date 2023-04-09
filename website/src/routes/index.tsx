@@ -39,7 +39,7 @@ export const useGetQoute = routeLoader$(async () => {
   if (request.status !== 200) {
     abortController.abort();
     return {
-      author: 'Winston (Ian McShane) (John Wick - 2)',
+      author: 'John Wick Universe',
       content: 'Rules... without them we live with the animals.',
     };
   }
@@ -50,7 +50,7 @@ export const useGetQoute = routeLoader$(async () => {
 
   if (response.author.trim() === '') {
     return {
-      author: 'John Wick\'s Universe',
+      author: 'John Wick Universe',
       content: 'Rules... without them we live with the animals.',
     };
   }
