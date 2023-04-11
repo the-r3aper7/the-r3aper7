@@ -24,6 +24,11 @@ export type getQouteData = {
   content: string;
 };
 
+export const defaultQuote = {
+  author: 'John Wick Universe',
+  content: 'Rules... without them we live with the animals.',
+}
+
 export const useGetQoute = routeLoader$(async () => {
   const qoutableUrl = new URL('https://api.quotable.io/');
   const tag = randomTag() as string;
@@ -38,10 +43,7 @@ export const useGetQoute = routeLoader$(async () => {
 
   if (request.status !== 200) {
     abortController.abort();
-    return {
-      author: 'John Wick Universe',
-      content: 'Rules... without them we live with the animals.',
-    };
+    return defaultQuote
   }
 
   const response: QouteAbleResponse = await request.json();
@@ -49,10 +51,7 @@ export const useGetQoute = routeLoader$(async () => {
   abortController.abort();
 
   if (response.author.trim() === '') {
-    return {
-      author: 'John Wick Universe',
-      content: 'Rules... without them we live with the animals.',
-    };
+    return defaultQuote
   }
 
   return {
