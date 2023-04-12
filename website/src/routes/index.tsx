@@ -1,7 +1,7 @@
 import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { routeLoader$ } from '@builder.io/qwik-city';
-import  Image from '~/components/image/image';
+import Image from '~/components/image/image';
 import { BookIcon } from '~/icons/books';
 import { ContactsIcon } from '~/icons/contacts';
 import { LearningIcon } from '~/icons/learning';
@@ -27,7 +27,7 @@ export type getQouteData = {
 export const defaultQuote = {
   author: 'John Wick Universe',
   content: 'Rules... without them we live with the animals.',
-}
+};
 
 export const useGetQoute = routeLoader$(async () => {
   const qoutableUrl = new URL('https://api.quotable.io/');
@@ -43,7 +43,7 @@ export const useGetQoute = routeLoader$(async () => {
 
   if (request.status !== 200) {
     abortController.abort();
-    return defaultQuote
+    return defaultQuote;
   }
 
   const response: QouteAbleResponse = await request.json();
@@ -51,7 +51,7 @@ export const useGetQoute = routeLoader$(async () => {
   abortController.abort();
 
   if (response.author.trim() === '') {
-    return defaultQuote
+    return defaultQuote;
   }
 
   return {
@@ -94,13 +94,18 @@ export default component$(() => {
               Currently Learning
             </h1>
             <div class='flex flex-wrap justify-center gap-3 md:max-w-md group'>
-              <div>
+              <a
+                href='https://www.rust-lang.org/'
+                target='_blank'
+                target='_blank'
+                referrerPolicy='no-referrer'
+              >
                 <Image
                   name='Rust'
                   src='/logos/rust.png'
                   class='md:h-20 h-14 rounded-lg md:shadow-lg shadow-md shadow-amber-700'
                 />
-              </div>
+              </a>
             </div>
           </div>
           <div class='flex flex-col items-center md:gap-x-2 gap-y-2 p-2'>
@@ -113,8 +118,13 @@ export default component$(() => {
             <div class='flex flex-wrap justify-center gap-3 md:max-w-md group'>
               {ContactMe.map((props, index) => {
                 return (
-                  <a key={`${index}-${props.name}`} target='_blank' referrerPolicy='no-referrer'{...props}>
-                      <Image {...props} />
+                  <a
+                    key={`${index}-${props.name}`}
+                    target='_blank'
+                    referrerPolicy='no-referrer'
+                    {...props}
+                  >
+                    <Image {...props} />
                   </a>
                 );
               })}
@@ -130,9 +140,14 @@ export default component$(() => {
             <div class='flex flex-wrap justify-center gap-3 md:max-w-md'>
               {Acquiring.map((props, index) => {
                 return (
-                  <div key={`${index}-${props.name}`}>
+                  <a
+                    key={`${index}-${props.name}`}
+                    target='_blank'
+                    referrerPolicy='no-referrer'
+                    {...props}
+                  >
                     <Image {...props} />
-                  </div>
+                  </a>
                 );
               })}
             </div>

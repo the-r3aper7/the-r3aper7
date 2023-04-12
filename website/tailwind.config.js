@@ -8,7 +8,7 @@ module.exports = {
       },
       colors: {
         'matte-black': '#28282B',
-      }
+      },
     },
   },
   plugins: [],
