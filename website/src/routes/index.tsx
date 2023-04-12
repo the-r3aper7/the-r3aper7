@@ -97,7 +97,6 @@ export default component$(() => {
               <a
                 href='https://www.rust-lang.org/'
                 target='_blank'
-                target='_blank'
                 referrerPolicy='no-referrer'
               >
                 <Image
