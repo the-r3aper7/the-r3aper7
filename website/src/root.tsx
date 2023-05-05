@@ -18,7 +18,10 @@ export default component$(() => {
       <head>
         <meta charSet='utf-8' />
         <link rel='manifest' href='/manifest.json' />
-        <meta name="google-site-verification" content="ZC1MDJmwpZy1qxRG1dlyl8LnBAOElY-Hxx3ktt0XEkI" />
+        <meta
+          name='google-site-verification'
+          content='ZC1MDJmwpZy1qxRG1dlyl8LnBAOElY-Hxx3ktt0XEkI'
+        />
         <RouterHead />
       </head>
       <body lang='en'>

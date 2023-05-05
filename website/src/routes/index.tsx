@@ -94,11 +94,7 @@ export default component$(() => {
               Currently Learning
             </h1>
             <div class='flex flex-wrap justify-center gap-3 md:max-w-md group'>
-              <a
-                href='https://www.rust-lang.org/'
-                target='_blank'
-                referrerPolicy='no-referrer'
-              >
+              <a href='https://www.rust-lang.org/' target='_blank' referrerPolicy='no-referrer'>
                 <Image
                   name='Rust'
                   src='/logos/rust.png'
