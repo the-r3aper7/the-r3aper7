@@ -1,0 +1,35 @@
+@tailwind utilities;
+
+@layer utilities {
+  .centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.hero {
+  height: 100vh;
+  border-radius: 7px;
+  position: relative;
+  background-image: linear-gradient(
+    45deg,
+    #4568DC,
+    #B06AB3
+    );
+  @apply centered;
+}
+
+.banner {
+  height: 100%;
+  width: 33.34%;
+  position:absolute;
+  z-index: 1;
+  @apply -skew-x-12 centered flex-col gap-y-6;
+}
+
+.programming_image {
+  width: 126px;
+  mix-blend-mode: multiply;
+  @apply rounded-lg
+}

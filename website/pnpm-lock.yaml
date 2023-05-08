@@ -1,5 +1,10 @@
 lockfileVersion: '6.0'
 
+dependencies:
+  qwik-image:
+    specifier: ^0.0.3
+    version: 0.0.3
+
 devDependencies:
   '@builder.io/qwik':
     specifier: 0.101.0
@@ -3407,6 +3412,10 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
     dev: true
+
+  /qwik-image@0.0.3:
+    resolution: {integrity: sha512-pxcS6TMYOQ/p/v520XUJcGH6VwTGx6ejIyoP+oL2X4drVbx77rzutfhvTZ2UUmZITlisaVdCAmPlUTwKsldOaQ==}
+    dev: false
 
   /rc@1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
