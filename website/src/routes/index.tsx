@@ -102,6 +102,7 @@ export default component$(() => {
                 />
               </a>
             </div>
+            <a href="/api/auth/signin">Google Auth</a>
           </div>
           <div class='flex flex-col items-center md:gap-x-2 gap-y-2 p-2'>
             <h1 class='md:text-3xl text-xl text-center'>

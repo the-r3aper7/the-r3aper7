@@ -132,9 +132,9 @@ export interface Thumbnail {
   resolution?: string;
 }
 
-export interface AutomaticCaptions {}
+export interface AutomaticCaptions { }
 
-export interface Subtitles {}
+export interface Subtitles { }
 
 export interface RequestedFormat {
   asr?: number;
@@ -186,4 +186,19 @@ export interface Version {
   current_git_head: any;
   release_git_head: string;
   repository: string;
+}
+
+export interface VideoFormatInfo {
+  formatId: string;
+  resolution: string;
+  extension: string;
+  audioCodec: string;
+  videoCodec: string;
+  fileSize: string;
+}
+
+export interface VideoInfo {
+  name: string;
+  formats: VideoFormatInfo[];
+  success: boolean;
 }

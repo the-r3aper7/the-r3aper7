@@ -1,77 +1,112 @@
-import { component$ } from '@builder.io/qwik';
-import { Form, routeAction$, z, zod$ } from '@builder.io/qwik-city';
-import { promisify } from 'util';
-import { exec } from 'node:child_process';
-import type { ytDlpYouTubeData } from '../../types/yt-dlp-drive';
+import { component$, useStore } from '@builder.io/qwik';
+import type { RequestHandler} from '@builder.io/qwik-city';
+import { server$ } from '@builder.io/qwik-city';
+import type { VideoInfo, ytDlpYouTubeData } from '../../types/yt-dlp-drive';
 import { spawn } from 'child_process';
 import { writeFileSync } from 'fs';
+import { formatBytes } from '~/utils/unit-conversion';
+import {google} from "googleapis";
+import { decode } from '@auth/core/jwt';
 
-const execPromise = promisify(exec);
-
-export const useGetVideoInfo = routeAction$(
-  async (data) => {
-    const { stdout, stderr } = await execPromise(`yt-dlp -j ${data.url}`);
-
-    if (stderr) {
-      return { name: [], formats: [], success: false };
-    }
-    // Parse the JSON data
-    const json = JSON.parse(stdout) as ytDlpYouTubeData;
-
-    // Extract the video formats from the JSON data
-    const formats = json.formats.map((format) => ({
-      formatId: format.format_id,
-      resolution: format.resolution,
-      extension: format.ext,
-      audioCodec: format.acodec,
-      videoCodec: format.vcodec,
-      fileSize: format.filesize,
-    }));
-    // Return the video formats
-    return { name: json.title, formats: formats, success: true };
-  },
-  zod$({
-    url: z.string(),
-  })
-);
-
-export const useDownloadVideo = routeAction$(
-  async (data) => {
-    const args = ['-q', '-f', 'bestvideo[ext=webm]+bestaudio[ext=m4a]/best', '-S', 'ext:mp4:m4a', data.url, '-o', '-'];
+export const getVideoInfo = server$((url: string) => {
+  return new Promise<VideoInfo>((resolve, reject) => {
+    const rawData: any[] = []
+    const args = ['-j', url]
     const ytDlpProcess = spawn('yt-dlp', args);
-    const buff: any[] = []
-    for await (const chunk of ytDlpProcess.stdout) {
-      buff.push(chunk)
-    }
-    writeFileSync("1.mp4", Buffer.concat(buff))
-    return 'completed';
-  },
-  zod$({
-    url: z.string(),
+
+    ytDlpProcess.stderr.on('error', () => {
+      reject({ name: "", formats: [], success: false });
+    })
+
+    ytDlpProcess.on('close', (code) => {
+      if (code === 0) {
+        // Parse the JSON data
+        const ytdlpInfoJSONFormatted = JSON.parse(rawData.toString()) as ytDlpYouTubeData;
+
+        // Extract the video formats from the JSON data
+        const formats = ytdlpInfoJSONFormatted.formats.map((format) => ({
+          formatId: format.format_id,
+          resolution: format.resolution,
+          extension: format.ext,
+          audioCodec: format.acodec,
+          videoCodec: format.vcodec,
+          fileSize: formatBytes(format.filesize),
+        }));
+        // Return the video formats
+        resolve({ name: ytdlpInfoJSONFormatted.title, formats: formats, success: true })
+      }
+      reject({ name: "", formats: [], success: false })
+    })
+
+    ytDlpProcess.stdout.on("data", (chunks) => {
+      rawData.push(chunks)
+    })
   })
+},);
+
+export const downloadVideo = server$(
+  async (url: string) => {
+    try {
+      const args = ['-q', '-f', 'bestvideo[ext=webm]+bestaudio[ext=m4a]/best', '-S', 'ext:mp4:m4a', url, '-o', '-'];
+      const ytDlpProcess = spawn('yt-dlp', args);
+      const buff: any[] = []
+      for await (const chunk of ytDlpProcess.stdout) {
+        buff.push(chunk)
+      }
+      writeFileSync("1.mp4", Buffer.concat(buff))
+      return 'completed';
+    } catch {
+      return 'some error occured'
+    }
+  },
 );
+
+export const oauth2Client = new google.auth.OAuth2({
+  clientId: import.meta.env.GOOGLE_ID,
+  clientSecret: import.meta.env.GOOGLE_SECRET,
+  redirectUri: "http://localhost:5173/api/auth/callback/google"
+})
+
+export const onRequest: RequestHandler = async ({ json, method, cookie, env }) => {
+  // headers.set('Cache-Control', 'private');
+  if (method === 'POST' && cookie.has("next-auth.session-token")) {
+    const accessToken = await decode({token: cookie.get("next-auth.session-token")?.value, secret: env.get("AUTH_SECRET")!})
+    oauth2Client.setCredentials({
+      access_token: accessToken?.access_token as string,
+    })
+    const drive = google.drive({
+      version: 'v3',
+      auth: oauth2Client
+    });
+    const files = await drive.files.list();
+    files.data.files?.forEach((file) => {
+      console.log('Name:', file.name);
+      console.log('Type:', file.mimeType);
+      console.log('ID:', file.id);
+    });
+    json(200, { message: 'Hello World' });
+  }
+};
 
 export default component$(() => {
-  const getResAction = useGetVideoInfo();
-  const downloadVideo = useDownloadVideo();
+  const resolutionStore = useStore<VideoInfo>({ name: "", formats: [], success: false });
   return (
     <div class={'flex justify-center items-center min-h-screen flex-col'}>
-      <Form action={getResAction} class={'flex flex-col space-y-2'}>
-        <input name='url' value={'https://www.youtube.com/watch?v=jNQXAC9IVRw'} required />
-        <button type='submit' class={'text-white border border-1'}>
-          Get Resolution
-        </button>
-      </Form>
-      <Form action={downloadVideo} class={'flex flex-col space-y-2'}>
-        <input name='url' value={'https://www.youtube.com/watch?v=wBmWHU7KJvQ'} required />
-        <button type='submit' class={'text-white border border-1'}>
-          Download
-        </button>
-      </Form>
-      {getResAction.value?.success && (
+      <button onClick$={
+        async () => {
+          const resolutions = await getVideoInfo('https://www.youtube.com/watch?v=r51cYVZWKdY');
+          resolutionStore.name = resolutions.name
+          resolutionStore.formats = resolutions.formats
+          resolutionStore.success = resolutions.success
+        }
+      }>Get Resolutions</button>
+      <a href="/api/yt-dlp-drive/google-auth">Login</a>
+
+      {/* <img src={session.value?.user?.image} /> */}
+      {resolutionStore.success ? (
         // When the action is done successfully, the `action.value` property will contain the return value of the action
         <>
-          <p class={'text-white'}>Video Title is {getResAction.value.name}</p>
+          <p class={'text-white'}>Video Title is {resolutionStore.name}</p>
           <table class={'text-white'}>
             <thead>
               <tr>
@@ -84,8 +119,8 @@ export default component$(() => {
               </tr>
             </thead>
             <tbody>
-              {getResAction.value?.formats &&
-                getResAction.value?.formats.map((format, index) => {
+              {resolutionStore.formats &&
+                resolutionStore.formats.map((format, index) => {
                   return (
                     <tr key={`get-res-action-table-row-${index}`}>
                       <td hidden>{format.formatId}</td>
@@ -100,7 +135,7 @@ export default component$(() => {
             </tbody>
           </table>
         </>
-      )}
+      ) : <>Failed</>}
     </div>
   );
 });
