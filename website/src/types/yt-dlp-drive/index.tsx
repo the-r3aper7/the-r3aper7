@@ -132,9 +132,9 @@ export interface Thumbnail {
   resolution?: string;
 }
 
-export interface AutomaticCaptions { }
+export interface AutomaticCaptions {}
 
-export interface Subtitles { }
+export interface Subtitles {}
 
 export interface RequestedFormat {
   asr?: number;
@@ -194,7 +194,8 @@ export interface VideoFormatInfo {
   extension: string;
   audioCodec: string;
   videoCodec: string;
-  fileSize: string;
+  fileSize: number;
+  fileSizeApprox: string;
 }
 
 export interface VideoInfo {
