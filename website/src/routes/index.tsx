@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, useSignal, useTask$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { routeLoader$ } from '@builder.io/qwik-city';
 import Image from '~/components/image/image';
@@ -7,6 +7,7 @@ import { ContactsIcon } from '~/icons/contacts';
 import { LearningIcon } from '~/icons/learning';
 import { randomTag } from '~/utils/randRange';
 import { Acquiring, ContactMe } from '../utils/constants';
+import { getLoginURL } from './api/auth/google/get-google-auth-url.util';
 
 export interface QouteAbleResponse {
   _id: string;
@@ -62,9 +63,13 @@ export const useGetQoute = routeLoader$(async () => {
 
 export default component$(() => {
   const qoute = useGetQoute().value as getQouteData;
-
+  const loginURL = useSignal<string>('');
+  useTask$(async () => {
+    loginURL.value = await getLoginURL();
+  });
   return (
     <>
+      <a href={loginURL.value}>Google Auth</a>
       <section class='flex md:flex-row flex-col min-h-screen justify-center items-center text-gray-200 md:gap-x-4 md:px-4 gap-y-2'>
         <article class='flex flex-col justify-center items-center w-3/4 md:w-1/2 md:gap-x-2 gap-y-2 p-4'>
           <h1 class='md:text-3xl text-2xl text-center items-center md:max-w-fit max-w-xs'>
@@ -102,7 +107,6 @@ export default component$(() => {
                 />
               </a>
             </div>
-            <a href="/api/auth/signin">Google Auth</a>
           </div>
           <div class='flex flex-col items-center md:gap-x-2 gap-y-2 p-2'>
             <h1 class='md:text-3xl text-xl text-center'>

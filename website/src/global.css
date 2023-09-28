@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-  @apply font-signika bg-matte-black;
+  /* @apply  bg-matte-black; */
 }
 
 @font-face {
