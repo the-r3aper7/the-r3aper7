@@ -4,10 +4,6 @@ I am **Sai Srikar Dumpeti**, from India 🇮🇳
 - BTECH CSE 22-26, BIT Mesra
 - Eager to learn new things!
 
-## **Actively Learning**
-
-<img src="./website/public/logos/rust.png" alt="Rust" width="86px" />
-
 ## **Learning through Open Source Projects**
 
 <div style="display: flex; gap: 12px">
