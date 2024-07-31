@@ -17,7 +17,43 @@ import { BlogHero } from "@/src/components"
 
 <BlogHero slug="setup-github-for-android-signed-apk"/>
 
-[Step 1](/public/articles-assests/setup-github-for-android-signed-apk/Step1.png)
+GitHub Actions is a powerful tool for automating your Android app's build and release process. In this article, we'll walk you through the steps to set up GitHub Actions for creating a signed APK of your Android application.
+
+### Prerequisites
+Before we begin, make sure you have:
+
+- An Android project hosted on GitHub
+- A signing key for your Android app
+- GitHub account with access to your repository
+
+### Create Signed APK
+
+
+![Step 1](/articles-assests/setup-github-for-android-signed-apk/Step1.png)
+
+![Step 2](/articles-assests/setup-github-for-android-signed-apk/Step2.png)
+
+![Step 3](/articles-assests/setup-github-for-android-signed-apk/Step3.png)
+
+![Step 4](/articles-assests/setup-github-for-android-signed-apk/Step4.png)
+
+> Remember your `Password`, `Alias`, `Password` of key
+
+![Step 5](/articles-assests/setup-github-for-android-signed-apk/Step5.png)
+
+![Step 6](/articles-assests/setup-github-for-android-signed-apk/Step6.png)
+
+![Step 7](/articles-assests/setup-github-for-android-signed-apk/Step7.png)
+
+![Step 8](/articles-assests/setup-github-for-android-signed-apk/Step8.png)
+
+![Step 9](/articles-assests/setup-github-for-android-signed-apk/Step9.png)
+
+![Step 10](/articles-assests/setup-github-for-android-signed-apk/Step10.png)
+
+![Step 11](/articles-assests/setup-github-for-android-signed-apk/Step11.png)
+
+![Step 12](/articles-assests/setup-github-for-android-signed-apk/Step12.png)
 
 ```yml
 name: Build Release APK
@@ -83,4 +119,5 @@ jobs:
           asset_name: release.apk
           asset_content_type: application/vnd.android.package-archive
 ```
+
 export default ({ children }) => <article className="article">{children}</article>

@@ -12,9 +12,9 @@ export async function BlogHero(props: BlogHeroProps) {
   const { description, image, publishedOn, title, tags } = await getPost(slug)
   return (
     <div className="relative mt-4">
-      <img src={image} alt="" className="rounded" />
+      <img src={image} alt="" className="rounded object-cover" height={720} />
       <div className="absolute top-0 flex flex-col gap-y-4 justify-center items-center w-full h-full backdrop-blur-lg rounded">
-        <h1 className=" text-6xl font-bold text-center">{title}</h1>
+        <h1 className="text-6xl font-bold text-center px-8">{title}</h1>
         <div className="">
           <p className="text-center">{publishedOn}</p>
         </div>
