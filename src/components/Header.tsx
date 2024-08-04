@@ -1,60 +1,60 @@
-'use client'
+'use client';
 
-import { IconMenu2, IconX } from "@tabler/icons-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useCallback } from "react";
+import { IconMenu2, IconX } from '@tabler/icons-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useCallback, useState } from 'react';
 
 const navItems = [
   {
     id: 'nav-items-1',
     title: 'Projects',
-    link: ''
+    link: '',
   },
   {
     id: 'nav-items-2',
     title: 'Articles',
-    link: '/articles'
-  }
+    link: '/articles',
+  },
 ];
 
 export function Header() {
   const [isMobileHeaderOpen, setIsMobileHeaderOpen] = useState(false);
 
   const mobileHeaderToggle = useCallback(() => {
-    setIsMobileHeaderOpen(prev => !prev);
+    setIsMobileHeaderOpen((prev) => !prev);
   }, []);
 
   return (
-    <header className="sticky z-20 top-0 w-full bg-black bg-opacity-10 backdrop-blur-lg">
+    <header className="sticky top-0 z-20 w-full bg-black bg-opacity-10 backdrop-blur-lg">
       <div className="mx-auto">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-x-2">
-            <Image 
-              alt="SSD" 
-              src="/logo.png" 
-              width={42} 
-              height={42} 
-              className="rounded-md" 
+            <Image
+              alt="SSD"
+              src="/logo.png"
+              width={42}
+              height={42}
+              className="rounded-md"
             />
-            <p className="hidden md:block text-3xl font-bold">
+            <p className="hidden text-3xl font-bold md:block">
               Sai Srikar Dumpeti
             </p>
           </Link>
           <nav className="hidden md:flex md:gap-x-8">
-            {navItems.map(item => (
-              <Link 
-                href={item.link} 
+            {navItems.map((item) => (
+              <Link
+                href={item.link}
                 key={item.id}
-                className="text-gray-100 hover:text-gray-600 transition-colors"
+                className="text-gray-100 transition-colors hover:text-gray-600"
               >
                 {item.title}
               </Link>
             ))}
           </nav>
-          <button 
+          <button
             onClick={mobileHeaderToggle}
-            className="md:hidden focus:outline-none"
+            className="focus:outline-none md:hidden"
             aria-label="Toggle mobile menu"
           >
             {isMobileHeaderOpen ? <IconX size={26} /> : <IconMenu2 size={26} />}
@@ -64,11 +64,11 @@ export function Header() {
       {isMobileHeaderOpen && (
         <nav className="md:hidden">
           <ul className="flex flex-col items-center py-4">
-            {navItems.map(item => (
+            {navItems.map((item) => (
               <li key={item.id} className="w-full">
-                <Link 
+                <Link
                   href={item.link}
-                  className="block py-2 px-4 text-center text-gray-100 hover:bg-gray-600 transition-colors"
+                  className="block px-4 py-2 text-center text-gray-100 transition-colors hover:bg-gray-600"
                 >
                   {item.title}
                 </Link>

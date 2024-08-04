@@ -1,105 +1,105 @@
 .article {
-	@apply space-y-4;
+  @apply space-y-4;
 }
 
 .article .katex-html {
-	display: none;
+  display: none;
 }
 
 .article .katex {
-	background-color: #1e1e1e;
-	@apply p-4 rounded
+  background-color: #1e1e1e;
+  @apply rounded p-4;
 }
 
-.article input[type="checkbox"]:disabled {
-	@apply text-amber-400
+.article input[type='checkbox']:disabled {
+  @apply text-amber-400;
 }
 
 .article h1 {
-	@apply text-4xl lg:text-6xl font-semibold;
+  @apply text-4xl font-semibold lg:text-6xl;
 }
 
 .article h2 {
-	@apply text-3xl lg:text-5xl font-medium;
+  @apply text-3xl font-medium lg:text-5xl;
 }
 
 .article h3 {
-	@apply text-2xl lg:text-4xl;
+  @apply text-2xl lg:text-4xl;
 }
 
 .article h4 {
-	@apply text-xl lg:text-3xl;
+  @apply text-xl lg:text-3xl;
 }
 
 .article blockquote {
-	background-color: var(--surface-background);
-	border-left: 4px solid white;
-	@apply py-6 px-4;
+  background-color: var(--surface-background);
+  border-left: 4px solid white;
+  @apply px-4 py-6;
 }
 
 .article ul,
 .article ol {
-	@apply my-4 ml-10 list-disc;
+  @apply my-4 ml-10 list-disc;
 }
 
 .article ol {
-	@apply list-decimal;
+  @apply list-decimal;
 }
 
 .article li {
-	@apply my-1 pl-2;
+  @apply my-1 pl-2;
 }
 
 .article li::marker,
 .article li::-webkit-details-marker {
-	@apply font-extrabold;
+  @apply font-extrabold;
 }
 
 .article ul[class='contains-task-list'] {
-	@apply ml-0 list-none;
+  @apply ml-0 list-none;
 }
 
 .article li[class='task-list-item'] {
-	@apply pl-0;
+  @apply pl-0;
 }
 
 .article a {
-	@apply text-blue-500 hover:text-blue-600 hover:underline;
+  @apply text-blue-500 hover:text-blue-600 hover:underline;
 }
 
 .article hr {
-	@apply h-px border border-gray-700;
+  @apply h-px border border-gray-700;
 }
 
 .article img {
-	background-color: var(--surface-background);
-	@apply rounded w-full;
+  background-color: var(--surface-background);
+  @apply w-full rounded;
 }
 
-.article pre{
-	background-color: var(--surface-background);
-	overflow: scroll;
-	@apply p-4 rounded-md
+.article pre {
+  background-color: var(--surface-background);
+  overflow: scroll;
+  @apply rounded-md p-4;
 }
 
 .article p {
-	@apply font-medium text-lg leading-relaxed 
+  @apply text-lg font-medium leading-relaxed;
 }
 
 .article p > code {
-	background-color: var(--surface-background);
-	@apply p-2 rounded-md
+  background-color: var(--surface-background);
+  @apply rounded-md p-2;
 }
 
 .article table {
   background-color: var(--surface-background);
-  @apply w-full rounded
+  @apply w-full rounded;
 }
 
 .article table > thead > tr > th {
-  @apply p-4 border border-gray-500
+  @apply border border-gray-500 p-4;
 }
 
 .article table > tbody > tr > td {
-  @apply p-4 border border-gray-500
+  @apply border border-gray-500 p-4;
 }

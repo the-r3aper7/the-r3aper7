@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="py-4 border-t">
+    <footer className="border-t py-4">
       <p className="text-center">Made with 💛 by me</p>
     </footer>
   );

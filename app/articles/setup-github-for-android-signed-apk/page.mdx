@@ -3,24 +3,26 @@ title: Setup github actions for android signed apk
 description: loremnvsdlkndkfj fdjs ldkfjskldjfs fjlksjdf sjdflksjfiweor iwriwriowpir wf asdsafsd gfhghjhgjhjshtetrer dfgfsgfgafgrtre tretertwr
 image: https://images.pexels.com/photos/16310530/pexels-photo-16310530.jpeg
 publishedOn: 25-03-2023
-tags: ["android", "github", "actions"]
+tags: ['android', 'github', 'actions']
 status: editing
 ---
 
 export const metadata = {
-  title: "Setup github actions for android signed apk",
-  description: "loremnvsdlkndkfj fdjs ldkfjskldjfs fjlksjdf sjdflksjfiweor iwriwriowpir wf asdsafsd gfhghjhgjhjshtetrer dfgfsgfgafgrtre tretertwr",
-  image: "https://images.pexels.com/photos/16310530/pexels-photo-16310530.jpeg",
-  publishedOn: "25-03-2023"
-}
+  title: 'Setup github actions for android signed apk',
+  description:
+    'loremnvsdlkndkfj fdjs ldkfjskldjfs fjlksjdf sjdflksjfiweor iwriwriowpir wf asdsafsd gfhghjhgjhjshtetrer dfgfsgfgafgrtre tretertwr',
+  image: 'https://images.pexels.com/photos/16310530/pexels-photo-16310530.jpeg',
+  publishedOn: '25-03-2023',
+};
 
-import { BlogHero } from "@/src/components"
+import { BlogHero } from '@/src/components';
 
-<BlogHero slug="setup-github-for-android-signed-apk"/>
+<BlogHero slug="setup-github-for-android-signed-apk" />
 
 GitHub Actions is a powerful tool for automating your Android app's build and release process. In this article, we'll walk you through the steps to set up GitHub Actions for creating a signed APK of your Android application.
 
 ### Prerequisites
+
 Before we begin, make sure you have:
 
 - An Android project hosted on GitHub
@@ -28,7 +30,6 @@ Before we begin, make sure you have:
 - GitHub account with access to your repository
 
 ### Create Signed APK
-
 
 ![Step 1](/articles-assests/setup-github-for-android-signed-apk/Step1.png)
 
@@ -121,4 +122,6 @@ jobs:
           asset_content_type: application/vnd.android.package-archive
 ```
 
-export default ({ children }) => <article className="article">{children}</article>
+export default ({ children }) => (
+  <article className="article">{children}</article>
+);

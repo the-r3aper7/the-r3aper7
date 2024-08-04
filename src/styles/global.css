@@ -1,17 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("highlight.css");
+@import url('highlight.css');
 
 :root {
   --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: #2C3E50;
+  --background-start-rgb: #2c3e50;
   --background-end-rgb: #000000;
   --surface-background: #1e1e1e;
 }
 
 body {
-	background-color: #0e0e0e;
-	color: rgb(243, 243, 243);
-	scroll-behavior: smooth;
+  background-color: #0e0e0e;
+  color: rgb(243, 243, 243);
+  scroll-behavior: smooth;
 }

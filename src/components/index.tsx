@@ -1,7 +1,7 @@
-import { Header } from "./Header";
-import { Hero } from "./Hero"
-import { BlogHero } from "./BlogHero";
-import { Mermaid } from "./Mermaid"
-import { Footer } from "./Footer"
+import { BlogHero } from './BlogHero';
+import { Footer } from './Footer';
+import { Header } from './Header';
+import { Hero } from './Hero';
+import { Mermaid } from './Mermaid';
 
-export { Header, Hero, BlogHero, Mermaid, Footer }
+export { BlogHero, Footer, Header, Hero, Mermaid };

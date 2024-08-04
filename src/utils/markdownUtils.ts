@@ -1,5 +1,5 @@
-import matter, { read } from "gray-matter";
-import { readdirSync } from "fs";
+import { readdirSync } from 'fs';
+import matter from 'gray-matter';
 
 export type Frontmatter = {
   title: string;
@@ -7,28 +7,30 @@ export type Frontmatter = {
   publishedOn: string;
   description: string;
   tags: string[];
-  status: "editing" | "published";
+  status: 'editing' | 'published';
 };
 
 export interface FileMetadata extends Frontmatter {
   uri: string;
 }
 
-const articleDirectory = "app/articles";
+const articleDirectory = 'app/articles';
 
 export async function getPosts(): Promise<FileMetadata[]> {
   const files = readdirSync(articleDirectory)
-    .filter((file) => file !== "page.tsx")
+    .filter((file) => file !== 'page.tsx')
     .map((file) => {
       const { data } = matter.read(`${articleDirectory}/${file}/page.mdx`);
-      if ((data as Frontmatter).status !== "published") {
-        return;
+      if ((data as Frontmatter).status !== 'published') {
+        return undefined;
       }
       return {
         uri: `/articles/${file}`,
-        ...data,
+        ...(data as Frontmatter),
       };
-    });
+    })
+    .filter((post): post is FileMetadata => post !== undefined);
+
   return files;
 }
 

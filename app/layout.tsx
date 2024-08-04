@@ -1,21 +1,21 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "../src/styles/global.css";
-import { Footer, Header } from "@/src/components";
-import mermaid from "mermaid"
+import { Footer, Header } from '@/src/components';
+import mermaid from 'mermaid';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import '../src/styles/global.css';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Sai Srikar Dumpeti",
-  description: "personal site of sai srikar dumpeti",
+  title: 'Sai Srikar Dumpeti',
+  description: 'personal site of sai srikar dumpeti',
 };
 
 mermaid.initialize({
   startOnLoad: true,
   theme: 'default',
   securityLevel: 'loose',
-})
+});
 
 export default function RootLayout({
   children,
