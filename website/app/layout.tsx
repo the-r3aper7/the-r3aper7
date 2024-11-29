@@ -3,6 +3,8 @@ import "./globals.css";
 import { Navbar } from "@/components/shared/navbar";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { headers } from "next/headers";
+import { incrementWebsiteViews } from "@/lib/actions/websiteViews";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,18 +22,23 @@ export const metadata: Metadata = {
   description: "Hi There!",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+
+  if (headersList.get("x-page-visited")) {
+    await incrementWebsiteViews();
+  }
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <Navbar />
           {children}
         </ThemeProvider>
       </body>

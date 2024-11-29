@@ -11,12 +11,14 @@ export function Navbar() {
     <nav
       className={`w-full py-4 px-6 ${
         theme === "dark" ? "bg-background" : "bg-white"
-      } absolute`}
+      } sticky`}
     >
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <span className="text-xl font-bold">Sai Srikar Dumpeti</span>
+            <Link href={"/"} className="text-xl font-bold">
+              Sai Srikar Dumpeti
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center gap-x-2">
