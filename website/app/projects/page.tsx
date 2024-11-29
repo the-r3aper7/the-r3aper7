@@ -1,6 +1,6 @@
 import GithubProjectCard from "@/components/shared/githubProjectCard";
 import { Suspense } from "react";
-import {GithubRepoProps} from "@/app/api/github/route";
+import { GithubRepoProps } from "@/app/api/github/route";
 
 async function getGithubProjects(): Promise<GithubRepoProps[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/github`, {

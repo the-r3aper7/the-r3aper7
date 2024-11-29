@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {Eye, GitFork, Github, Star} from "lucide-react";
-import {GithubRepoProps} from "@/app/api/github/route";
+import { Eye, GitFork, Github, Star } from "lucide-react";
+import { GithubRepoProps } from "@/app/api/github/route";
 
 export default function GithubProjectCard({
   name,
