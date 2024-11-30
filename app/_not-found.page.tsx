@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export default function NotFound() {
+export default function _notFound() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-4">404 - Page Not Found</h1>
