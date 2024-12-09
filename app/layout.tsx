@@ -2,7 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { headers } from "next/headers";
+import { cookies } from "next/headers";
 import { incrementWebsiteViews } from "@/lib/actions/websiteViews";
 
 const geistSans = localFont({
@@ -26,9 +26,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
+  const cookiesList = await cookies();
 
-  if (headersList.get("x-page-visited")) {
+  if (cookiesList.get("visited")?.value !== "true") {
     await incrementWebsiteViews();
   }
 

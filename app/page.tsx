@@ -1,4 +1,11 @@
-import { Code, Coffee, Gamepad, Github, Linkedin } from "lucide-react";
+import {
+  Code,
+  Coffee,
+  FileText,
+  Gamepad,
+  Github,
+  Linkedin,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { LeetCodeIcon } from "@/components/icons/leetcode";
@@ -65,6 +72,18 @@ function Hero() {
           <div className="flex items-center space-x-3">
             <Github className="w-5 h-5 text-blue-500" />
             <span>Open source contribution</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <FileText className="w-5 h-5 text-blue-500" />
+            <span>
+              View my{" "}
+              <Link
+                href={"/files/resume.pdf"}
+                className="font-bold text-blue-500 hover:text-blue-600 transition-colors"
+              >
+                resume
+              </Link>
+            </span>
           </div>
         </div>
       </div>

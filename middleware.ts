@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname === "/") {
     const response = NextResponse.next();
-    response.headers.set("x-page-visited", "true");
+    response.cookies.set("visited", "true");
     return response;
   }
   return NextResponse.next();
