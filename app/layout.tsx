@@ -2,8 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { cookies } from "next/headers";
-import { incrementWebsiteViews } from "@/lib/actions/websiteViews";
+import { ViewCounter } from "@/components/ViewCounter";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,12 +25,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookiesList = await cookies();
-
-  if (cookiesList.get("visited")?.value !== "true") {
-    await incrementWebsiteViews();
-  }
-
   return (
     <html lang="en">
       <head>
@@ -40,6 +33,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ViewCounter />
         <ThemeProvider>
           {children}
         </ThemeProvider>
