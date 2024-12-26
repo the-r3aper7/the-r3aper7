@@ -39,7 +39,7 @@ export default function Home() {
       </main>
       <main
         className="min-h-screen flex-1 flex items-center justify-center"
-        id="worked-with"
+        id="my-tech-stack"
       >
         <div className="max-w-2xl mx-auto mt-4 p-8 w-full">
           <MyStack />
@@ -107,6 +107,18 @@ function Hero() {
                 className="font-bold text-blue-500 hover:text-blue-600 transition-colors"
               >
                 resume
+              </Link>
+            </span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <Blocks className="w-5 h-5 text-blue-500 mr-2" />
+            <span>
+              Checkout{" "}
+              <Link
+                href="#my-tech-stack"
+                className="font-bold text-blue-500 hover:text-blue-600 transition-colors"
+              >
+                my tech stack
               </Link>
             </span>
           </div>
@@ -183,8 +195,20 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           ))}
         </div>
         <div className="flex items-center gap-1">
-          <Button variant="secondary" className="h-18 w-18">View Demo</Button>
-          <Button variant="secondary" className="h-18 w-18">View Code</Button>
+          {project.demoUrl && (
+            <Link
+              href={project.demoUrl}
+              className="h-18 w-18 bg-secondary text-sm p-2 rounded-md text-primary"
+            >
+              View Demo
+            </Link>
+          )}
+          <Link
+            href={project.codeUrl}
+            className="h-18 w-18 bg-secondary text-sm p-2 rounded-md text-primary"
+          >
+            View Code
+          </Link>
         </div>
       </CardFooter>
     </Card>
@@ -212,7 +236,7 @@ const TechStackCard: React.FC<{ tech: TechStack }> = ({ tech }) => {
   const Icon = tech.icon;
 
   return (
-    <div className="h-32 w-32 border border-transparent rounded-lg flex flex-col items-center justify-around hover:border-gray-700 hover:bg-white/5 transition-all duration-500">
+    <div className="h-32 w-32 border border-transparent rounded-lg flex flex-col items-center justify-around hover:border-gray-700 hover:bg-white/5 transition-all duration-300">
       <Icon
         size={64}
         style={{ stroke: tech.color, fill: "none" }}
@@ -229,7 +253,7 @@ function MyStack() {
     <>
       <h1 className="text-3xl font-bold flex items-center justify-center mb-20">
         <Blocks className="w-10 h-10 text-blue-500 mr-2" />
-        Worked with
+        Tech Stack
       </h1>
       <div className="flex flex-wrap justify-center gap-1">
         {techStacks.map((techStack, idx) => (
