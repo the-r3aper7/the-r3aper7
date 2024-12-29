@@ -3,9 +3,22 @@
 import { DragEvent, useState } from "react";
 import Image from "next/image";
 
-const boardSize = 8
+const boardSize = 8;
 
-type Piece = "bR" | "bN" | "bB" | "bQ" | "bK" | "bP" | "wR" | "wN" | "wB" | "wQ" | "wK" | "wP" | null;
+type Piece =
+  | "bR"
+  | "bN"
+  | "bB"
+  | "bQ"
+  | "bK"
+  | "bP"
+  | "wR"
+  | "wN"
+  | "wB"
+  | "wQ"
+  | "wK"
+  | "wP"
+  | null;
 
 type Position = {
   row: number;
@@ -15,7 +28,7 @@ type Position = {
 type CurrentPiece = {
   piece: Piece;
   position: Position;
-}
+};
 
 function Page() {
   const [board, setBoard] = useState<Piece[][]>([
@@ -46,15 +59,19 @@ function Page() {
     const newBoard = [...board.map((row) => [...row])];
     const { piece, position: fromPosition } = selectedPiece;
 
-    const validSteps = getValidMoves(piece, fromPosition)
-    if (validSteps.some(step => step.row === toPosition.row && step.col === toPosition.col)) {
+    const validSteps = getValidMoves(piece, fromPosition);
+    if (
+      validSteps.some((step) =>
+        step.row === toPosition.row && step.col === toPosition.col
+      )
+    ) {
       newBoard[fromPosition.row][fromPosition.col] = null;
       newBoard[toPosition.row][toPosition.col] = piece;
     }
     setBoard(newBoard);
     setSelectedPiece(null);
-    setHighlightedCells([])
-  }
+    setHighlightedCells([]);
+  };
 
   const handleDrop = (toPosition: Position, e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -64,14 +81,18 @@ function Page() {
     const newBoard = [...board.map((row) => [...row])];
     const { piece, position: fromPosition } = draggedPiece;
 
-    const validSteps = getValidMoves(piece, fromPosition)
-    if (validSteps.some(step => step.row === toPosition.row && step.col === toPosition.col)) {
+    const validSteps = getValidMoves(piece, fromPosition);
+    if (
+      validSteps.some((step) =>
+        step.row === toPosition.row && step.col === toPosition.col
+      )
+    ) {
       newBoard[fromPosition.row][fromPosition.col] = null;
       newBoard[toPosition.row][toPosition.col] = piece;
     }
     setBoard(newBoard);
     setDraggedPiece(null);
-    setHighlightedCells([])
+    setHighlightedCells([]);
   };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -79,52 +100,64 @@ function Page() {
   };
 
   const validMovesByPawn = (piece: Piece, position: Position) => {
-    const steps: Position[] = []
+    const steps: Position[] = [];
     if (piece && piece.startsWith("w")) {
       if (position.row == 6) {
-        steps.push({row: position.row - 2, col: position.col});
-        steps.push({row: position.row - 1, col: position.col});
+        steps.push({ row: position.row - 2, col: position.col });
+        steps.push({ row: position.row - 1, col: position.col });
       } else if (!board[position.row - 1][position.col]?.startsWith("b")) {
-        steps.push({row: position.row - 1, col: position.col});
+        steps.push({ row: position.row - 1, col: position.col });
       }
-      if (position.row - 1 >= 0 && position.col - 1 >= 0 && board[position.row - 1][position.col - 1]?.startsWith("b")) {
-        steps.push({row: position.row - 1, col: position.col - 1});
+      if (
+        position.row - 1 >= 0 && position.col - 1 >= 0 &&
+        board[position.row - 1][position.col - 1]?.startsWith("b")
+      ) {
+        steps.push({ row: position.row - 1, col: position.col - 1 });
       }
-      if (position.row - 1 >= 0 && position.col + 1 < boardSize && board[position.row - 1][position.col + 1]?.startsWith("b")) {
-        steps.push({row: position.row - 1, col: position.col + 1})
+      if (
+        position.row - 1 >= 0 && position.col + 1 < boardSize &&
+        board[position.row - 1][position.col + 1]?.startsWith("b")
+      ) {
+        steps.push({ row: position.row - 1, col: position.col + 1 });
       }
     } else {
       if (position.row == 1) {
-        steps.push({row: position.row + 2, col: position.col});
-        steps.push({row: position.row + 1, col: position.col});
+        steps.push({ row: position.row + 2, col: position.col });
+        steps.push({ row: position.row + 1, col: position.col });
       } else if (!board[position.row + 1][position.col]?.startsWith("w")) {
-        steps.push({row: position.row + 1, col: position.col});
+        steps.push({ row: position.row + 1, col: position.col });
       }
-      if (position.row + 1 < boardSize && position.col + 1 < boardSize && board[position.row + 1][position.col + 1]?.startsWith("w")) {
-        steps.push({row: position.row + 1, col: position.col + 1});
+      if (
+        position.row + 1 < boardSize && position.col + 1 < boardSize &&
+        board[position.row + 1][position.col + 1]?.startsWith("w")
+      ) {
+        steps.push({ row: position.row + 1, col: position.col + 1 });
       }
-      if (position.row + 1 < boardSize && position.col - 1 >= 0 && board[position.row + 1][position.col - 1]?.startsWith("w")) {
-        steps.push({row: position.row + 1, col: position.col - 1})
+      if (
+        position.row + 1 < boardSize && position.col - 1 >= 0 &&
+        board[position.row + 1][position.col - 1]?.startsWith("w")
+      ) {
+        steps.push({ row: position.row + 1, col: position.col - 1 });
       }
     }
-    return steps
-  }
+    return steps;
+  };
 
   const validMovesByBishop = (piece: Piece, position: Position) => {
-    const steps: Position[] = []
+    const steps: Position[] = [];
     // diagonal down right
     let row = position.row;
     let col = position.col;
     // const rowEnd = board[row + 1][col + 1] === null ? boardSize : row + 1
     // const colEnd = board[row + 1][col + 1] === null ? boardSize : col + 1
     while (row < boardSize && col < boardSize) {
-      row += 1
-      col += 1
+      row += 1;
+      col += 1;
       if (row >= boardSize || col >= boardSize) break;
       if (board[row][col] === null) {
-        steps.push({row: row, col: col});
+        steps.push({ row: row, col: col });
       } else if (board[row][col]?.at(0) !== piece?.at(0)) {
-        steps.push({row: row, col: col});
+        steps.push({ row: row, col: col });
         break;
       } else {
         break;
@@ -134,13 +167,13 @@ function Page() {
     row = position.row;
     col = position.col;
     while (row < boardSize && col > 0) {
-      row += 1
-      col -= 1
+      row += 1;
+      col -= 1;
       if (row >= boardSize || col < 0) break;
       if (board[row][col] === null) {
-        steps.push({row: row, col: col});
+        steps.push({ row: row, col: col });
       } else if (board[row][col]?.at(0) !== piece?.at(0)) {
-        steps.push({row: row, col: col});
+        steps.push({ row: row, col: col });
         break;
       } else {
         break;
@@ -150,13 +183,13 @@ function Page() {
     row = position.row;
     col = position.col;
     while (row > 0 && col < boardSize) {
-      row -= 1
-      col += 1
+      row -= 1;
+      col += 1;
       if (row < 0 || col >= boardSize) break;
       if (board[row][col] === null) {
-        steps.push({row: row, col: col});
+        steps.push({ row: row, col: col });
       } else if (board[row][col]?.at(0) !== piece?.at(0)) {
-        steps.push({row: row, col: col});
+        steps.push({ row: row, col: col });
         break;
       } else {
         break;
@@ -166,29 +199,29 @@ function Page() {
     row = position.row;
     col = position.col;
     while (row > 0 && col > 0) {
-      row -= 1
-      col -= 1
+      row -= 1;
+      col -= 1;
       if (row < 0 || col < 0) break;
       if (board[row][col] === null) {
-        steps.push({row: row, col: col});
+        steps.push({ row: row, col: col });
       } else if (board[row][col]?.at(0) !== piece?.at(0)) {
-        steps.push({row: row, col: col});
+        steps.push({ row: row, col: col });
         break;
       } else {
         break;
       }
     }
-    return steps
-  }
+    return steps;
+  };
 
   const validMovesByRook = (piece: Piece, position: Position) => {
-    const steps: Position[] = []
+    const steps: Position[] = [];
     // move up
     for (let row = position.row - 1; row >= 0; row--) {
       if (board[row][position.col] === null) {
-        steps.push({row: row, col: position.col});
+        steps.push({ row: row, col: position.col });
       } else if (board[row][position.col]?.at(0) !== piece?.at(0)) {
-        steps.push({row: row, col: position.col});
+        steps.push({ row: row, col: position.col });
         break;
       } else {
         break;
@@ -197,9 +230,9 @@ function Page() {
     // move down
     for (let row = position.row + 1; row < boardSize; row++) {
       if (board[row][position.col] === null) {
-        steps.push({row: row, col: position.col});
+        steps.push({ row: row, col: position.col });
       } else if (board[row][position.col]?.at(0) !== piece?.at(0)) {
-        steps.push({row: row, col: position.col});
+        steps.push({ row: row, col: position.col });
         break;
       } else {
         break;
@@ -208,9 +241,9 @@ function Page() {
     // move left
     for (let col = position.col - 1; col >= 0; col--) {
       if (board[position.row][col] === null) {
-        steps.push({row: position.row, col: col});
+        steps.push({ row: position.row, col: col });
       } else if (board[position.row][col]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row, col: col});
+        steps.push({ row: position.row, col: col });
         break;
       } else {
         break;
@@ -219,124 +252,136 @@ function Page() {
     // move right
     for (let col = position.col + 1; col < boardSize; col++) {
       if (board[position.row][col] === null) {
-        steps.push({row: position.row, col: col});
+        steps.push({ row: position.row, col: col });
       } else if (board[position.row][col]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row, col: col});
+        steps.push({ row: position.row, col: col });
         break;
       } else {
         break;
       }
     }
-    return steps
-  }
+    return steps;
+  };
 
   const validMovesByKnight = (piece: Piece, position: Position) => {
-    const steps: Position[] = []
+    const steps: Position[] = [];
     if (position.row - 2 >= 0 && position.col - 1 >= 0) {
       if (board[position.row - 2][position.col - 1]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row - 2, col: position.col - 1});
+        steps.push({ row: position.row - 2, col: position.col - 1 });
       }
     }
 
     if (position.row - 1 >= 0 && position.col - 2 >= 0) {
       if (board[position.row - 1][position.col - 2]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row - 1, col: position.col - 2})
+        steps.push({ row: position.row - 1, col: position.col - 2 });
       }
     }
 
     if (position.row + 1 < boardSize && position.col - 2 >= 0) {
       if (board[position.row + 1][position.col - 2]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row + 1, col: position.col - 2});
+        steps.push({ row: position.row + 1, col: position.col - 2 });
       }
     }
 
     if (position.row + 2 < boardSize && position.col - 1 >= 0) {
       if (board[position.row + 2][position.col - 1]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row + 2, col: position.col - 1});
+        steps.push({ row: position.row + 2, col: position.col - 1 });
       }
     }
 
     if (position.row + 2 < boardSize && position.col + 1 < boardSize) {
       if (board[position.row + 2][position.col + 1]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row + 2, col: position.col + 1});
+        steps.push({ row: position.row + 2, col: position.col + 1 });
       }
     }
 
     if (position.row + 1 < boardSize && position.col + 2 < boardSize) {
       if (board[position.row + 1][position.col + 2]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row + 1, col: position.col + 2});
+        steps.push({ row: position.row + 1, col: position.col + 2 });
       }
     }
 
     if (position.row - 1 >= 0 && position.col + 2 < boardSize) {
       if (board[position.row - 1][position.col + 2]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row - 1, col: position.col + 2});
+        steps.push({ row: position.row - 1, col: position.col + 2 });
       }
     }
 
     if (position.row - 2 >= 0 && position.col + 1 < boardSize) {
       if (board[position.row - 2][position.col + 1]?.at(0) !== piece?.at(0)) {
-        steps.push({row: position.row - 2, col: position.col + 1});
+        steps.push({ row: position.row - 2, col: position.col + 1 });
       }
     }
 
-    return steps
-  }
+    return steps;
+  };
 
   const validMovesByQueen = (piece: Piece, position: Position) => {
-    return [...validMovesByRook(piece, position), ...validMovesByBishop(piece, position)]
-  }
+    return [
+      ...validMovesByRook(piece, position),
+      ...validMovesByBishop(piece, position),
+    ];
+  };
 
   const validMovesByKing = (position: Position) => {
-    const steps: Position[] = []
-    if (position.row - 1 >= 0 && position.col - 1 >= 0)
-      steps.push({row: position.row - 1, col: position.col - 1});
-    if (position.row - 1 >= 0)
-      steps.push({row: position.row - 1, col: position.col});
-    if (position.row - 1 >= 0 && position.col + 1 < boardSize)
-      steps.push({row: position.row - 1, col: position.col + 1});
+    const steps: Position[] = [];
+    if (position.row - 1 >= 0 && position.col - 1 >= 0) {
+      steps.push({ row: position.row - 1, col: position.col - 1 });
+    }
+    if (position.row - 1 >= 0) {
+      steps.push({ row: position.row - 1, col: position.col });
+    }
+    if (position.row - 1 >= 0 && position.col + 1 < boardSize) {
+      steps.push({ row: position.row - 1, col: position.col + 1 });
+    }
 
-    if (position.col + 1 < boardSize)
-      steps.push({row: position.row, col: position.col + 1});
-    if (position.row + 1 < boardSize && position.col + 1 < boardSize)
-      steps.push({row: position.row + 1, col: position.col + 1});
-    if (position.row + 1 < boardSize)
-      steps.push({row: position.row + 1, col: position.col});
+    if (position.col + 1 < boardSize) {
+      steps.push({ row: position.row, col: position.col + 1 });
+    }
+    if (position.row + 1 < boardSize && position.col + 1 < boardSize) {
+      steps.push({ row: position.row + 1, col: position.col + 1 });
+    }
+    if (position.row + 1 < boardSize) {
+      steps.push({ row: position.row + 1, col: position.col });
+    }
 
-    if (position.col + 1 < boardSize && position.col - 1 >= 0)
-      steps.push({row: position.row + 1, col: position.col - 1});
-    if (position.row + 1 < boardSize && position.col - 1 >= 0)
-      steps.push({row: position.row + 1, col: position.col - 1});
-    if (position.col - 1 >= 0)
-      steps.push({row: position.row, col: position.col - 1});
+    if (position.col + 1 < boardSize && position.col - 1 >= 0) {
+      steps.push({ row: position.row + 1, col: position.col - 1 });
+    }
+    if (position.row + 1 < boardSize && position.col - 1 >= 0) {
+      steps.push({ row: position.row + 1, col: position.col - 1 });
+    }
+    if (position.col - 1 >= 0) {
+      steps.push({ row: position.row, col: position.col - 1 });
+    }
 
-    return steps
-  }
+    return steps;
+  };
 
   const getValidMoves = (piece: Piece, position: Position) => {
-    const steps = []
+    const steps = [];
     switch (piece && piece.replace("b", "").replace("w", "")) {
       case "P":
         steps.push(...validMovesByPawn(piece, position));
-        break
+        break;
       case "R":
         steps.push(...validMovesByRook(piece, position));
-        break
+        break;
       case "N":
         steps.push(...validMovesByKnight(piece, position));
-        break
+        break;
       case "Q":
         steps.push(...validMovesByQueen(piece, position));
-        break
+        break;
       case "K":
         steps.push(...validMovesByKing(position));
-        break
+        break;
       case "B":
         steps.push(...validMovesByBishop(piece, position));
-        break
+        break;
     }
     return steps;
-  }
+  };
 
   return (
     <div className="min-h-screen flex justify-center items-center ">
@@ -345,21 +390,24 @@ function Page() {
           <div key={`row-${rowIdx}`} className="flex">
             {row.map((piece, colIdx) => {
               const isWhiteSquare = (rowIdx + colIdx) % 2 === 0;
-              const isHighlighted = highlightedCells.some((cells) => cells.row === rowIdx && cells.col === colIdx);
+              const isHighlighted = highlightedCells.some((cells) =>
+                cells.row === rowIdx && cells.col === colIdx
+              );
               const position = { row: rowIdx, col: colIdx };
               return (
                 <div
                   key={`square-${rowIdx}-${colIdx}`}
                   className={`relative w-20 h-20 flex items-center justify-center
-                    ${isWhiteSquare ? "transition-colors bg-white" : "bg-gray-400"}
-                    ${piece ? "hover:bg-yellow-100/95 duration-300" : ""}`
-                }
+                    ${
+                    isWhiteSquare ? "transition-colors bg-white" : "bg-gray-400"
+                  }
+                    ${piece ? "hover:bg-yellow-100/95 duration-300" : ""}`}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(position, e)}
                   onClick={() => {
                     if (isHighlighted) {
                       makeMoveBySelection(position);
-                      return
+                      return;
                     }
                   }}
                 >
@@ -368,14 +416,14 @@ function Page() {
                       className="flex items-center justify-center"
                       draggable
                       onDragStart={() => {
-                        setHighlightedCells(getValidMoves(piece, position))
-                        handleDragStart(piece, position)
+                        setHighlightedCells(getValidMoves(piece, position));
+                        handleDragStart(piece, position);
                       }}
                       onClick={() => {
                         setSelectedPiece({
                           piece: piece,
                           position: position,
-                        })
+                        });
                         setHighlightedCells(getValidMoves(piece, position));
                       }}
                     >
@@ -387,9 +435,14 @@ function Page() {
                       />
                     </div>
                   )}
-                  {
-                    isHighlighted ? <div className={`absolute h-6 w-6 rounded-full blur-lg bg-red-600`}></div> : null
-                  }
+                  {isHighlighted
+                    ? (
+                      <div
+                        className={`absolute h-6 w-6 rounded-full blur-lg bg-red-600`}
+                      >
+                      </div>
+                    )
+                    : null}
                 </div>
               );
             })}
