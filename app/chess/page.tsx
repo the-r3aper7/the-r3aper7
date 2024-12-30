@@ -2,6 +2,7 @@
 
 import { DragEvent, useState } from "react";
 import Image from "next/image";
+import {Card, CardHeader} from "@/components/ui/card";
 
 const boardSize = 8;
 
@@ -42,6 +43,7 @@ function Page() {
     ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"],
   ]);
 
+  const [currentPlayer, setCurrentPlayer] = useState<"w" | "b">("w");
   const [draggedPiece, setDraggedPiece] = useState<CurrentPiece | null>(null);
   const [selectedPiece, setSelectedPiece] = useState<CurrentPiece | null>(null);
   const [highlightedCells, setHighlightedCells] = useState<Position[]>([]);
@@ -71,6 +73,7 @@ function Page() {
     setBoard(newBoard);
     setSelectedPiece(null);
     setHighlightedCells([]);
+    setCurrentPlayer((prev) => prev === "w" ? "b" : "w")
   };
 
   const handleDrop = (toPosition: Position, e: DragEvent<HTMLDivElement>) => {
@@ -93,6 +96,7 @@ function Page() {
     setBoard(newBoard);
     setDraggedPiece(null);
     setHighlightedCells([]);
+    setCurrentPlayer((prev) => prev === "w" ? "b" : "w")
   };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -384,7 +388,13 @@ function Page() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center ">
+    <div className="min-h-screen flex flex-col justify-center items-center gap-y-2">
+      <Card>
+        <CardHeader className="-space-y-1">
+          <h1 className="text-xl font-extrabold">Player - 2</h1>
+          <h1 className="text-lg">Score: {26}</h1>
+        </CardHeader>
+      </Card>
       <div className="inline-block border-4 border-white rounded-lg shadow-xl">
         {board.map((row, rowIdx) => (
           <div key={`row-${rowIdx}`} className="flex">
@@ -397,7 +407,7 @@ function Page() {
               return (
                 <div
                   key={`square-${rowIdx}-${colIdx}`}
-                  className={`relative w-20 h-20 flex items-center justify-center
+                  className={`relative w-16 h-16 flex items-center justify-center
                     ${
                     isWhiteSquare ? "transition-colors bg-white" : "bg-gray-400"
                   }
@@ -412,7 +422,7 @@ function Page() {
                   }}
                 >
                   {piece && (
-                    <div
+                    <button
                       className="flex items-center justify-center"
                       draggable
                       onDragStart={() => {
@@ -426,6 +436,7 @@ function Page() {
                         });
                         setHighlightedCells(getValidMoves(piece, position));
                       }}
+                      disabled={currentPlayer !== piece.at(0)}
                     >
                       <Image
                         src={`/files/chess-pieces/${piece}.svg`}
@@ -433,7 +444,7 @@ function Page() {
                         width={"100"}
                         height={"100"}
                       />
-                    </div>
+                    </button>
                   )}
                   {isHighlighted
                     ? (

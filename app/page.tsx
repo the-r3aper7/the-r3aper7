@@ -12,9 +12,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { IconBrandLeetcode } from "@tabler/icons-react";
-import { Project, TechName, TechStack } from "@/lib/types/others";
-import { projects, techIcons, techStacks } from "@/lib/constant";
+import {IconBrandLeetcode, IconGitMerge} from "@tabler/icons-react";
+import {Project, TechInfo, TechName} from "@/lib/types/others";
+import {OpenSourceOrganization, projects, techIcons, techStacks} from "@/lib/constant";
+import Image from "next/image";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 
 export default function Home() {
   return (
@@ -35,6 +37,14 @@ export default function Home() {
       >
         <div className="max-w-2xl mx-auto mt-4 p-8 w-full">
           <Projects />
+        </div>
+      </main>
+      <main
+        className="min-h-screen flex-1 flex items-center justify-center"
+        id="open-source-contributions"
+      >
+        <div className="max-w-2xl mx-auto mt-4 p-8 w-full">
+          <OpenSourceContributions />
         </div>
       </main>
       <main
@@ -96,7 +106,15 @@ function Hero() {
           </div>
           <div className="flex items-center space-x-3">
             <Github className="w-5 h-5 text-blue-500" />
-            <span>Open source contribution</span>
+            <span>
+              Open Source
+              <Link
+                href="#open-source-contributions"
+                className="font-bold text-blue-500 hover:text-blue-600 transition-colors"
+              >
+                {' '}Contributions
+              </Link>
+            </span>
           </div>
           <div className="flex items-center space-x-3">
             <FileText className="w-5 h-5 text-blue-500" />
@@ -167,13 +185,46 @@ function Contact() {
   );
 }
 
-const ProjectBadge: React.FC<{ techName: TechName }> = ({ techName }) => {
+const OpenSourceContributions = () => {
+  return (
+    <>
+      <h1 className="text-3xl font-bold flex items-center justify-center mb-16">
+        <IconGitMerge className="w-10 h-10 text-blue-500 mr-2"/>
+        Contributions to open source
+      </h1>
+      <div className="flex flex-row flex-wrap justify-center items-center gap-4">
+
+      {
+        OpenSourceOrganization.map((source) => {
+          return (
+            <Link href={source.url} key={source.id}>
+              <div className="h-32 w-32 border border-transparent rounded-lg flex flex-col items-center justify-around hover:border-gray-700 hover:bg-white/5 transition-all duration-300">
+                <TooltipProvider delayDuration={150}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Image src={source.image} alt={source.name} width={100} height={100} className="rounded-lg"/>
+                    </TooltipTrigger>
+                    <TooltipContent side={'bottom'}>
+                      <p>{source.name}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </Link>
+          )
+        })
+      }
+      </div>
+    </>
+  )
+}
+
+const ProjectBadge: React.FC<{ techName: TechName }> = ({techName}) => {
   const tech = techIcons[techName];
-  const Icon = tech.icon;
 
   return (
     <Badge variant="secondary">
-      <Icon size={20} className="inline mr-2" />
+      <Image src={tech.icon_url} alt={tech.label} height={20} width={20} className={"inline mr-2 rounded-full"} />
       {tech.label}
     </Badge>
   );
@@ -232,18 +283,19 @@ function Projects() {
   );
 }
 
-const TechStackCard: React.FC<{ tech: TechStack }> = ({ tech }) => {
-  const Icon = tech.icon;
-
+const TechStackCard: React.FC<{ tech: TechInfo }> = ({ tech }) => {
   return (
     <div className="h-32 w-32 border border-transparent rounded-lg flex flex-col items-center justify-around hover:border-gray-700 hover:bg-white/5 transition-all duration-300">
-      <Icon
-        size={64}
-        style={{ stroke: tech.color, fill: "none" }}
-      />
-      <span className="text-gray-400 font-medium">
-        {tech.name}
-      </span>
+      <TooltipProvider delayDuration={150}>
+        <Tooltip>
+          <TooltipTrigger>
+            <Image src={tech.icon_url} alt={tech.label} height={100} width={100} className={tech.label === 'Kotlin' ? "" : "rounded-lg"}/>
+          </TooltipTrigger>
+          <TooltipContent side={'bottom'}>
+            <p>{tech.label}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 };
@@ -255,7 +307,7 @@ function MyStack() {
         <Blocks className="w-10 h-10 text-blue-500 mr-2" />
         Tech Stack
       </h1>
-      <div className="flex flex-wrap justify-center gap-1">
+      <div className="flex flex-row flex-wrap justify-center items-center gap-4">
         {techStacks.map((techStack, idx) => (
           <TechStackCard key={idx} tech={techStack} />
         ))}
