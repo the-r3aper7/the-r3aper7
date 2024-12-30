@@ -2,7 +2,7 @@
 
 import { DragEvent, useState } from "react";
 import Image from "next/image";
-import {Card, CardHeader} from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 
 const boardSize = 8;
 
@@ -73,7 +73,7 @@ function Page() {
     setBoard(newBoard);
     setSelectedPiece(null);
     setHighlightedCells([]);
-    setCurrentPlayer((prev) => prev === "w" ? "b" : "w")
+    setCurrentPlayer((prev) => prev === "w" ? "b" : "w");
   };
 
   const handleDrop = (toPosition: Position, e: DragEvent<HTMLDivElement>) => {
@@ -96,7 +96,7 @@ function Page() {
     setBoard(newBoard);
     setDraggedPiece(null);
     setHighlightedCells([]);
-    setCurrentPlayer((prev) => prev === "w" ? "b" : "w")
+    setCurrentPlayer((prev) => prev === "w" ? "b" : "w");
   };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {

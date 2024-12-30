@@ -12,11 +12,21 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {IconBrandLeetcode, IconGitMerge} from "@tabler/icons-react";
-import {Project, TechInfo, TechName} from "@/lib/types/others";
-import {OpenSourceOrganization, projects, techIcons, techStacks} from "@/lib/constant";
+import { IconBrandLeetcode, IconGitMerge } from "@tabler/icons-react";
+import { Project, TechInfo, TechName } from "@/lib/types/others";
+import {
+  OpenSourceOrganization,
+  projects,
+  techIcons,
+  techStacks,
+} from "@/lib/constant";
 import Image from "next/image";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Home() {
   return (
@@ -112,7 +122,7 @@ function Hero() {
                 href="#open-source-contributions"
                 className="font-bold text-blue-500 hover:text-blue-600 transition-colors"
               >
-                {' '}Contributions
+                {" "}Contributions
               </Link>
             </span>
           </div>
@@ -189,42 +199,51 @@ const OpenSourceContributions = () => {
   return (
     <>
       <h1 className="text-3xl font-bold flex items-center justify-center mb-16">
-        <IconGitMerge className="w-10 h-10 text-blue-500 mr-2"/>
+        <IconGitMerge className="w-10 h-10 text-blue-500 mr-2" />
         Contributions to open source
       </h1>
       <div className="flex flex-row flex-wrap justify-center items-center gap-4">
-
-      {
-        OpenSourceOrganization.map((source) => {
+        {OpenSourceOrganization.map((source) => {
           return (
             <Link href={source.url} key={source.id}>
               <div className="h-32 w-32 border border-transparent rounded-lg flex flex-col items-center justify-around hover:border-gray-700 hover:bg-white/5 transition-all duration-300">
                 <TooltipProvider delayDuration={150}>
                   <Tooltip>
                     <TooltipTrigger>
-                      <Image src={source.image} alt={source.name} width={100} height={100} className="rounded-lg"/>
+                      <Image
+                        src={source.image}
+                        alt={source.name}
+                        width={100}
+                        height={100}
+                        className="rounded-lg"
+                      />
                     </TooltipTrigger>
-                    <TooltipContent side={'bottom'}>
+                    <TooltipContent side={"bottom"}>
                       <p>{source.name}</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </div>
             </Link>
-          )
-        })
-      }
+          );
+        })}
       </div>
     </>
-  )
-}
+  );
+};
 
-const ProjectBadge: React.FC<{ techName: TechName }> = ({techName}) => {
+const ProjectBadge: React.FC<{ techName: TechName }> = ({ techName }) => {
   const tech = techIcons[techName];
 
   return (
     <Badge variant="secondary">
-      <Image src={tech.icon_url} alt={tech.label} height={20} width={20} className={"inline mr-2 rounded-full"} />
+      <Image
+        src={tech.icon_url}
+        alt={tech.label}
+        height={20}
+        width={20}
+        className={"inline mr-2 rounded-full"}
+      />
       {tech.label}
     </Badge>
   );
@@ -289,9 +308,15 @@ const TechStackCard: React.FC<{ tech: TechInfo }> = ({ tech }) => {
       <TooltipProvider delayDuration={150}>
         <Tooltip>
           <TooltipTrigger>
-            <Image src={tech.icon_url} alt={tech.label} height={100} width={100} className={tech.label === 'Kotlin' ? "" : "rounded-lg"}/>
+            <Image
+              src={tech.icon_url}
+              alt={tech.label}
+              height={100}
+              width={100}
+              className={tech.label === "Kotlin" ? "" : "rounded-lg"}
+            />
           </TooltipTrigger>
-          <TooltipContent side={'bottom'}>
+          <TooltipContent side={"bottom"}>
             <p>{tech.label}</p>
           </TooltipContent>
         </Tooltip>
